@@ -38,7 +38,7 @@ var usedAffirmations = [];
 var usedMantras = [];
 var currentMessage;
 
-receiveMessageButton.addEventListener("click", showMessage)
+receiveMessageButton.addEventListener("click", showMessage);
 
 function getRandomMessage(array) {
     return Math.floor(Math.random() * array.length)
@@ -85,10 +85,3 @@ function repeatMessage(messageType) {
 }
 
     
-//When a user selects a message option and then clicks the “Receive Message” button, the user sees a random message from the list of possible messages for that category
-//When the message appears, the meditation icon disappears from the message area
-//select mantra or affirmation, click receive message button, return message, meditation icon hidden
-       
-  
-// User never sees a repeated message until they’ve seen them all.
-// After they’ve seen them all they should be notified that they will now start seeing repeat messages.  
