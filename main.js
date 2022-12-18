@@ -34,7 +34,8 @@ var mantraButton = document.querySelector('#mantra');
 var receiveMessageButton = document.querySelector('.receive-message-button');
 var symbolSection = document.querySelector('#symbol');
 var image = document.querySelector('#Buddha');
-var usedMessages = [];
+var usedAffirmations = [];
+var usedMantras = [];
 var currentMessage;
 
 receiveMessageButton.addEventListener("click", showMessage)
@@ -46,29 +47,43 @@ function getRandomMessage(array) {
 function showMessage(event) {
     event.preventDefault()
     if (affirmationButton.checked) {
-        var message = affirmations[getRandomMessage(affirmations)]
-        symbolSection.innerText = affirmations[getRandomMessage(affirmations)] 
-    } else if (mantraButton.checked) {
-        symbolSection.innerText = mantras[getRandomMessage(mantras)]
-    }
-    noRepeatMessages();
-     }
-
-function noRepeatMessages() {
-    currentMessage = symbolSection.innerText
-    if (!usedMessages.includes(currentMessage)) {
-        usedMessages.push(currentMessage)        
-}
-    repeatMessage()
-}
-
-function repeatMessage() {
-var totalMessages = affirmations.length + mantras.length
-    if (usedMessages.length === totalMessages) {
-        symbolSection.innerText = 'You have seen all of the messages. You will now see repeat messages. But do not worry, they are usually better the second time around.'
-        usedMessages = []
+        displayAffirmation();
+    } else {
+        displayMantra();
     }
 }
+
+function displayAffirmation() {
+    if (affirmations.length) {
+        var message = affirmations.splice(getRandomMessage(affirmations), 1)[0]
+        symbolSection.innerText = message 
+        usedAffirmations.push(message)
+    } else {
+        repeatMessage('affirmations')
+    }    
+}
+
+function displayMantra() {
+    if (mantras.length) {
+        var message = mantras.splice(getRandomMessage(mantras), 1)[0]
+        symbolSection.innerText = message 
+        usedMantras.push(message)
+    } else {
+        repeatMessage('mantras')
+    }  
+}
+
+function repeatMessage(messageType) {
+    if (messageType === 'affirmations') {
+        affirmations = usedAffirmations
+        usedAffirmations = []
+    } else {
+        mantras = usedMantras
+        usedMantras = []
+    }
+    symbolSection.innerText = `You have seen all of the ${messageType}. You will now see repeat messages. But do not worry, they are usually better the second time around.`
+}
+
     
 //When a user selects a message option and then clicks the “Receive Message” button, the user sees a random message from the list of possible messages for that category
 //When the message appears, the meditation icon disappears from the message area
