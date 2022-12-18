@@ -15,42 +15,30 @@ var affirmations = [
 ];
 var mantras = [
     'Breathing in, I send myself love. Breathing out, I send love to someone else who needs it.',
-
     'Don/t let yesterday take up too much of today.',
-    
     'Every day is a second chance.',
-    
     'Tell the truth and love everyone.',
-    
     'I am free from sadness.',
-    
-    'I am enough.',
-    
-    'In the beginning it is you, in the middle it is you and in the end it is you.',
-    
+    'In the beginning it is you, in the middle it is you and in the end it is you.', 
     'I love myself.',
-    
     'I am present now.',
-    
     'Inhale the future, exhale the past.',
-    
-    'This too shall pass.',
-    
-    'Yesterday is not today.',
-    
-    'The only constant is change.',
-    
+    'This too shall pass.', 
+    'Yesterday is not today.', 
+    'The only constant is change.', 
     'Onward and upward.',
-    
     'I am the sky, the rest is weather.'
 ];
 var affirmationButton = document.querySelector('#affirmation');
 var mantraButton = document.querySelector('#mantra');
-var receiveMessageButton = document.querySelector('.receive-message-button')
-var symbolSection = document.querySelector('#symbol')
-var image = document.querySelector('#Buddha')
+var receiveMessageButton = document.querySelector('.receive-message-button');
+var symbolSection = document.querySelector('#symbol');
+var image = document.querySelector('#Buddha');
+var usedAffirmations = [];
+var usedMantras = [];
+var currentMessage;
 
-receiveMessageButton.addEventListener("click", showMessage)
+receiveMessageButton.addEventListener("click", showMessage);
 
 function getRandomMessage(array) {
     return Math.floor(Math.random() * array.length)
@@ -59,17 +47,41 @@ function getRandomMessage(array) {
 function showMessage(event) {
     event.preventDefault()
     if (affirmationButton.checked) {
-        symbolSection.innerText = affirmations[getRandomMessage(affirmations)] 
-    } else if (mantraButton.checked) {
-        symbolSection.innerText = mantras[getRandomMessage(mantras)]
+        displayAffirmation();
+    } else {
+        displayMantra();
     }
-     
-
 }
-    
-//When a user selects a message option and then clicks the “Receive Message” button, the user sees a random message from the list of possible messages for that category
-//When the message appears, the meditation icon disappears from the message area
-//select mantra or affirmation, click receive message button, return message, meditation icon hidden
-       
-  
+
+function displayAffirmation() {
+    if (affirmations.length) {
+        var message = affirmations.splice(getRandomMessage(affirmations), 1)[0]
+        symbolSection.innerText = message 
+        usedAffirmations.push(message)
+    } else {
+        repeatMessage('affirmations')
+    }    
+}
+
+function displayMantra() {
+    if (mantras.length) {
+        var message = mantras.splice(getRandomMessage(mantras), 1)[0]
+        symbolSection.innerText = message 
+        usedMantras.push(message)
+    } else {
+        repeatMessage('mantras')
+    }  
+}
+
+function repeatMessage(messageType) {
+    if (messageType === 'affirmations') {
+        affirmations = usedAffirmations
+        usedAffirmations = []
+    } else {
+        mantras = usedMantras
+        usedMantras = []
+    }
+    symbolSection.innerText = `You have seen all of the ${messageType}. You will now see repeat messages. But do not worry, they are usually better the second time around.`
+}
+
     
